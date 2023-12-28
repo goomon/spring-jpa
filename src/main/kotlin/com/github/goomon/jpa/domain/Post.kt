@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "post")
@@ -19,4 +20,7 @@ data class Post(
 
     @Column(name = "creator")
     val creator: String,
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 )

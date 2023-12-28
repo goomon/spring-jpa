@@ -1,20 +1,26 @@
 spring:
+  sql:
+    init:
+      mode: always
+
   datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://localhost:3306/study
+    url: jdbc:p6spy:mysql://localhost:3306/study?serverTimezone=Asia/Seoul
     username: root
     password:
 
   jpa:
     database: mysql
+    open-in-view: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: false
         show_sql: true
-    open-in-view: false
+        dialect: org.hibernate.dialect.MySQLDialect
+        use_sql_comments: false
 
 logging:
   level:
