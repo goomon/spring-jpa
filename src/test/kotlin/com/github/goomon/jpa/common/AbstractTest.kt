@@ -79,7 +79,7 @@ abstract class AbstractTest {
 
     protected open fun properties(): Properties {
         val props = Properties()
-        props["hibernate.hbm2ddl.auto"] = "create-drop"
+        props["hibernate.hbm2ddl.auto"] = "create"
         props["hibernate.dialect"] = "org.hibernate.dialect.MySQLDialect"
         props["hibernate.connection.datasource"] = dataSource()
         props["hibernate.generate_statistics"] = true
