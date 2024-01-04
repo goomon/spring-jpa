@@ -1,6 +1,9 @@
 package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
+import com.vladmihalcea.flexypool.FlexyPoolDataSource
+import com.vladmihalcea.flexypool.adaptor.DataSourcePoolAdapter
+import com.vladmihalcea.flexypool.config.Configuration
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -8,6 +11,8 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.util.Properties
+import java.util.concurrent.TimeUnit
+import javax.sql.DataSource
 import org.junit.jupiter.api.Test
 
 class SimpleTest : AbstractTest() {
@@ -16,6 +21,7 @@ class SimpleTest : AbstractTest() {
         val props = super.properties()
         props["hibernate.connection.autocommit"] = false
         props["hibernate.jdbc.batch_size"] = 50
+        props["hibernate.connection.provider_disables_autocommit"] = false
         return props
     }
 

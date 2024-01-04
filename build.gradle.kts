@@ -26,6 +26,9 @@ dependencies {
 	implementation("com.mysql:mysql-connector-j")
 	implementation("p6spy:p6spy:3.9.1")
 
+	implementation("com.vladmihalcea.flexy-pool:flexy-hikaricp:2.2.3")
+	implementation("com.vladmihalcea.flexy-pool:flexy-micrometer-metrics:2.2.3")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

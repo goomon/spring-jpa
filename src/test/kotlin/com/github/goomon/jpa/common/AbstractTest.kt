@@ -1,6 +1,7 @@
 package com.github.goomon.jpa.common
 
 import com.p6spy.engine.spy.P6SpyDriver
+import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityManager
@@ -12,12 +13,16 @@ import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor
 import org.junit.platform.commons.logging.LoggerFactory
 import org.junit.platform.commons.util.AnnotationUtils
+import org.springframework.jdbc.datasource.SimpleDriverDataSource
 
 abstract class AbstractTest {
 
-    val LOGGER = LoggerFactory.getLogger(javaClass)
+    private val LOGGER = LoggerFactory.getLogger(javaClass)
+    private var entityManagerFactory: EntityManagerFactory? = null
 
     private fun newEntityManagerFactory(name: String): EntityManagerFactory {
+        if (entityManagerFactory != null) return entityManagerFactory!!
+
         val persistenceUnitInfo = PersistenceUnitInfoImpl(
             persistenceUnitName = name,
             managedClassNames = entities(),
@@ -28,7 +33,8 @@ abstract class AbstractTest {
             PersistenceUnitInfoDescriptor(persistenceUnitInfo),
             config,
         )
-        return entityManagerFactoryBuilder.build()
+        entityManagerFactory = entityManagerFactoryBuilder.build()
+        return entityManagerFactory!!
     }
 
     protected fun doInJPA(function: (EntityManager) -> Unit) {
@@ -58,11 +64,17 @@ abstract class AbstractTest {
     }
 
     protected open fun dataSource(): DataSource {
-        return HikariDataSource().apply {
-            driverClassName = P6SpyDriver::class.java.name
-            jdbcUrl = "jdbc:p6spy:mysql://localhost:3306/study?serverTimezone=Asia/Seoul"
-            username = "root"
-        }
+        val datasource = SimpleDriverDataSource()
+        datasource.driver = P6SpyDriver()
+        datasource.url = "jdbc:p6spy:mysql://localhost:3306/study?serverTimezone=Asia/Seoul"
+        datasource.username = "root"
+
+        val hikariConfig = HikariConfig()
+        val cpuCores = Runtime.getRuntime().availableProcessors()
+        hikariConfig.maximumPoolSize = cpuCores * 4
+        hikariConfig.dataSource = datasource
+
+        return HikariDataSource(hikariConfig)
     }
 
     protected open fun properties(): Properties {
