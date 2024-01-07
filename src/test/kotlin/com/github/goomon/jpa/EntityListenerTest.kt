@@ -1,17 +1,23 @@
 package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.PostPersist
 import jakarta.persistence.PostUpdate
 import jakarta.persistence.PrePersist
 import jakarta.persistence.PreUpdate
 import jakarta.persistence.Table
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.platform.commons.logging.LoggerFactory
 
@@ -40,29 +46,101 @@ class EntityListenerTest : AbstractTest() {
     }
 
     @Test
-    fun test() {
+    fun entityMergeEventListenerTest() {
         doInJPA { entityManager ->
             entityManager.persist(
                 Post(title = "entity listener test")
             )
 
-            entityManager
-                .find(Post::class.java, 1)
-                .copy(title = "entity listener test 2")
-                .run(entityManager::merge)
+            val post = entityManager.find(Post::class.java, 1)
+            post.title = "entity listener test2"
+            entityManager.merge(post)
+        }
+    }
+
+    @DisplayName("같은 아이디에 대해서는 ActionQueue가 아닌 선언한 순서가 중요하다.")
+    @Test
+    fun entityActionQueueTest() {
+        doInJPA { entityManager ->
+            val post = Post(id = 1L, title = "test")
+            entityManager.persist(post)
+
+            val tag1 = Tag(id = 1L, name = "tag1", post = post)
+            val tag2 = Tag(id = 2L, name = "tag2", post = post)
+            entityManager.persist(tag1)
+            entityManager.persist(tag2)
+        }
+
+        /**
+         * 로그 순서
+         * delete from post where id=1
+         * insert into post (title,id) values ('test2',1)
+         */
+        doInJPA { entityManager ->
+            val post = entityManager.find(Post::class.java, 1L)
+            entityManager.remove(post)
+            entityManager.persist(Post(id = 1L, title = "test2"))
+        }
+    }
+
+    @DisplayName("ActionQueue는 INSERT > DELETE 순서로 동작한다.")
+    @Test
+    fun entityActionQueueTest2() {
+        doInJPA { entityManager ->
+            val post = Post(id = 1L, title = "test")
+            entityManager.persist(post)
+
+            val tag1 = Tag(id = 1L, name = "tag1", post = post)
+            val tag2 = Tag(id = 2L, name = "tag2", post = post)
+            entityManager.persist(tag1)
+            entityManager.persist(tag2)
+        }
+
+        /**
+         * 로그 순서
+         * insert into post (title,id) values ('test2',2)
+         * delete from post where id=1
+         */
+        doInJPA { entityManager ->
+            val post = entityManager.find(Post::class.java, 1L)
+            entityManager.remove(post)
+            entityManager.persist(Post(id = 2L, title = "test2"))
         }
     }
 
     @Entity(name = "Post")
     @Table(name = "post")
     @EntityListeners(value = [PostListener::class])
-    data class Post(
+    class Post(
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private var id: Long = 0,
+//        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long = 0,
 
         @Column(name = "title")
-        private val title: String,
+        var title: String,
+
+        @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "post",
+            cascade = [CascadeType.ALL],
+            orphanRemoval = true,
+        )
+        val tags: MutableList<Tag> = mutableListOf(),
+    )
+
+    @Entity(name = "Tag")
+    @Table(name = "tag")
+    class Tag(
+        @Id
+//        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Long = 0,
+
+        @Column
+        val name: String,
+
+        @ManyToOne
+        @JoinColumn(name = "post_id")
+        var post: Post?,
     )
 
     class PostListener {

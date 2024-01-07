@@ -47,6 +47,7 @@ abstract class AbstractTest {
             function.invoke(entityManager)
             transaction.commit()
         } catch (e: Exception) {
+            LOGGER.error(e) { "Transaction failure" }
             try {
                 transaction?.rollback()
             } catch (e: Exception) {
