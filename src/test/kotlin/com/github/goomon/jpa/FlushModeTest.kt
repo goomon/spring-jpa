@@ -8,10 +8,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.hibernate.FlushMode
 import org.hibernate.Session
-import org.hibernate.annotations.FlushModeType
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.context.annotation.Description
 
 class FlushModeTest : AbstractTest() {
     @Test
@@ -24,13 +22,13 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
 
             session.persist(
                 Post(
                     id = 1L,
-                    title = "JPA FlushMode test",
+                    title = "JPA FlushMode test"
                 )
             )
 
@@ -39,7 +37,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 1
         }
     }
@@ -56,7 +54,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
 
             /**
@@ -65,7 +63,7 @@ class FlushModeTest : AbstractTest() {
             session.persist(
                 Post(
                     id = 1L,
-                    title = "JPA FlushMode test",
+                    title = "JPA FlushMode test"
                 )
             )
 
@@ -74,7 +72,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
         }
     }
@@ -92,13 +90,13 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
 
             session.persist(
                 Post(
                     id = 1L,
-                    title = "JPA FlushMode test",
+                    title = "JPA FlushMode test"
                 )
             )
 
@@ -112,7 +110,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 1
         }
     }
@@ -130,13 +128,13 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
 
             session.persist(
                 Post(
                     id = 1L,
-                    title = "JPA FlushMode test",
+                    title = "JPA FlushMode test"
                 )
             )
 
@@ -145,7 +143,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
         }
 
@@ -155,7 +153,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 1
         }
     }
@@ -173,13 +171,13 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 0
 
             session.persist(
                 Post(
                     id = 1L,
-                    title = "JPA FlushMode test",
+                    title = "JPA FlushMode test"
                 )
             )
 
@@ -188,7 +186,7 @@ class FlushModeTest : AbstractTest() {
                     select count(p)
                     from Post p
                 """.trimIndent(),
-                Int::class.java,
+                Int::class.java
             ).singleResult shouldBe 1
         }
     }
@@ -200,6 +198,6 @@ class FlushModeTest : AbstractTest() {
         private var id: Long = 0,
 
         @Column(name = "title")
-        private val title: String,
+        private val title: String
     )
 }

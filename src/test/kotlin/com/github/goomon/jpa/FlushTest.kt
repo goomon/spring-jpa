@@ -15,17 +15,19 @@ class FlushTest : AbstractTest() {
     @Test
     fun flush() {
         doInJPA { entityManager ->
-            (entityManager.createQuery(
-                """
+            (
+                entityManager.createQuery(
+                    """
                     select count(p)
                     from Post p
-                """.trimIndent()
-            ).singleResult as Number).toInt() shouldBe 0
+                    """.trimIndent()
+                ).singleResult as Number
+                ).toInt() shouldBe 0
 
             entityManager.persist(
                 Post(
                     id = 1L,
-                    title = "JPA flush test",
+                    title = "JPA flush test"
                 )
             )
 
@@ -34,12 +36,14 @@ class FlushTest : AbstractTest() {
              *
              * 조회하는 과정에서 `flush()` 발생
              */
-            val postCount = (entityManager.createQuery(
-                """
+            val postCount = (
+                entityManager.createQuery(
+                    """
                     select count(p)
                     from Post p
-                """.trimIndent()
-            ).singleResult as Number).toInt()
+                    """.trimIndent()
+                ).singleResult as Number
+                ).toInt()
 
             postCount shouldBe 1
         }
@@ -48,18 +52,19 @@ class FlushTest : AbstractTest() {
     @Test
     fun flushCauseBySpaceOverlap() {
         doInJPA { entityManager ->
-            (entityManager.createQuery(
-                """
+            (
+                entityManager.createQuery(
+                    """
                     select count(p)
                     from Post p
-                """.trimIndent()
-            ).singleResult as Number).toInt() shouldBe 0
-
+                    """.trimIndent()
+                ).singleResult as Number
+                ).toInt() shouldBe 0
 
             entityManager.persist(
                 Post(
                     id = 1L,
-                    title = "JPA flush test",
+                    title = "JPA flush test"
                 )
             )
 
@@ -76,29 +81,33 @@ class FlushTest : AbstractTest() {
                 """.trimIndent()
             ).resultList
 
-            (entityManager.createQuery(
-                """
+            (
+                entityManager.createQuery(
+                    """
                     select count(p)
                     from Post p
-                """.trimIndent()
-            ).singleResult as Number).toInt() shouldBe 1
+                    """.trimIndent()
+                ).singleResult as Number
+                ).toInt() shouldBe 1
         }
     }
 
     @Test
     fun flushWithNativeQuery() {
         doInJPA { entityManager ->
-            (entityManager.createNativeQuery(
-                """
+            (
+                entityManager.createNativeQuery(
+                    """
                     SELECT COUNT(*)
                     FROM post
-                """.trimIndent()
-            ).singleResult as Number).toInt() shouldBe 0
+                    """.trimIndent()
+                ).singleResult as Number
+                ).toInt() shouldBe 0
 
             entityManager.persist(
                 Post(
                     id = 1L,
-                    title = "JPA flush test",
+                    title = "JPA flush test"
                 )
             )
 
@@ -108,12 +117,14 @@ class FlushTest : AbstractTest() {
              * 네이티브 쿼리를 사용하는 경우 정확한 DB를 알 수 없기 때문에
              * 사용할 필요가 없어도 `flush()`가 호출된다.
              */
-            (entityManager.createNativeQuery(
-                """
+            (
+                entityManager.createNativeQuery(
+                    """
                     SELECT COUNT(*)
                     FROM post_details
-                """.trimIndent()
-            ).singleResult as Number).toInt() shouldBe 0
+                    """.trimIndent()
+                ).singleResult as Number
+                ).toInt() shouldBe 0
         }
     }
 
@@ -130,9 +141,9 @@ class FlushTest : AbstractTest() {
             mappedBy = "post",
             cascade = [CascadeType.ALL],
             orphanRemoval = true,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.LAZY
         )
-        private val postDetails: PostDetails? = null,
+        private val postDetails: PostDetails? = null
     )
 
     @Entity(name = "PostDetails")
@@ -142,6 +153,6 @@ class FlushTest : AbstractTest() {
         private var id: Long = 0,
 
         @OneToOne(fetch = FetchType.LAZY)
-        private val post: Post? = null,
+        private val post: Post? = null
     )
 }

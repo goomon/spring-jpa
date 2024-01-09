@@ -6,8 +6,6 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
@@ -112,8 +110,8 @@ class EntityListenerTest : AbstractTest() {
     @Table(name = "post")
     @EntityListeners(value = [PostListener::class])
     class Post(
+        //        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Id
-//        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
 
         @Column(name = "title")
@@ -123,16 +121,16 @@ class EntityListenerTest : AbstractTest() {
             fetch = FetchType.LAZY,
             mappedBy = "post",
             cascade = [CascadeType.ALL],
-            orphanRemoval = true,
+            orphanRemoval = true
         )
-        val tags: MutableList<Tag> = mutableListOf(),
+        val tags: MutableList<Tag> = mutableListOf()
     )
 
     @Entity(name = "Tag")
     @Table(name = "tag")
     class Tag(
+        //        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Id
-//        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
 
         @Column
@@ -140,7 +138,7 @@ class EntityListenerTest : AbstractTest() {
 
         @ManyToOne
         @JoinColumn(name = "post_id")
-        var post: Post?,
+        var post: Post?
     )
 
     class PostListener {
@@ -153,17 +151,17 @@ class EntityListenerTest : AbstractTest() {
 
         @PostPersist
         fun postPersist(post: Post) {
-            LOGGER.info { "[PostListener] post-persist | $post"}
+            LOGGER.info { "[PostListener] post-persist | $post" }
         }
 
         @PreUpdate
         fun preUpdate(post: Post) {
-            LOGGER.info { "[PostListener] pre-update | $post"}
+            LOGGER.info { "[PostListener] pre-update | $post" }
         }
 
         @PostUpdate
         fun postUpdate(post: Post) {
-            LOGGER.info { "[PostListener] post-update | $post"}
+            LOGGER.info { "[PostListener] post-update | $post" }
         }
     }
 }

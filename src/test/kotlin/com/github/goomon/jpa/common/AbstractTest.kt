@@ -7,13 +7,13 @@ import jakarta.persistence.Entity
 import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityManagerFactory
 import jakarta.persistence.EntityTransaction
-import java.util.Properties
-import javax.sql.DataSource
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor
 import org.junit.platform.commons.logging.LoggerFactory
 import org.junit.platform.commons.util.AnnotationUtils
 import org.springframework.jdbc.datasource.SimpleDriverDataSource
+import java.util.Properties
+import javax.sql.DataSource
 
 abstract class AbstractTest {
 
@@ -26,12 +26,12 @@ abstract class AbstractTest {
         val persistenceUnitInfo = PersistenceUnitInfoImpl(
             persistenceUnitName = name,
             managedClassNames = entities(),
-            properties = properties(),
+            properties = properties()
         )
         val config = mutableMapOf<String, Any>()
         val entityManagerFactoryBuilder = EntityManagerFactoryBuilderImpl(
             PersistenceUnitInfoDescriptor(persistenceUnitInfo),
-            config,
+            config
         )
         entityManagerFactory = entityManagerFactoryBuilder.build()
         return entityManagerFactory!!

@@ -5,16 +5,15 @@ import jakarta.persistence.ValidationMode
 import jakarta.persistence.spi.ClassTransformer
 import jakarta.persistence.spi.PersistenceUnitInfo
 import jakarta.persistence.spi.PersistenceUnitTransactionType
+import org.hibernate.jpa.HibernatePersistenceProvider
 import java.net.URL
 import java.util.Properties
 import javax.sql.DataSource
-import org.hibernate.jpa.HibernatePersistenceProvider
-
 
 class PersistenceUnitInfoImpl(
     private val persistenceUnitName: String,
     private val managedClassNames: List<String>,
-    private val properties: Properties,
+    private val properties: Properties
 ) : PersistenceUnitInfo {
     private var transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL
     private val mappingFileNames: List<String> = mutableListOf()

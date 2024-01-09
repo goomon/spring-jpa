@@ -1,19 +1,14 @@
 package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
-import com.vladmihalcea.flexypool.FlexyPoolDataSource
-import com.vladmihalcea.flexypool.adaptor.DataSourcePoolAdapter
-import com.vladmihalcea.flexypool.config.Configuration
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import java.util.Properties
-import java.util.concurrent.TimeUnit
-import javax.sql.DataSource
 import org.junit.jupiter.api.Test
+import java.util.Properties
 
 class SimpleTest : AbstractTest() {
 
@@ -32,7 +27,7 @@ class SimpleTest : AbstractTest() {
                 entityManager.persist(
                     Post(
                         title = "test",
-                        creator = "test",
+                        creator = "test"
                     )
                 )
             }
@@ -50,6 +45,6 @@ class SimpleTest : AbstractTest() {
         val title: String,
 
         @Column(name = "creator")
-        val creator: String,
+        val creator: String
     )
 }
