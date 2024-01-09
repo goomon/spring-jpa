@@ -4,6 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.2.0"
 	id("io.spring.dependency-management") version "1.1.4"
 	id("org.jmailen.kotlinter") version "3.13.0"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.22"
 	kotlin("jvm") version "1.9.20"
 	kotlin("plugin.spring") version "1.9.20"
 	kotlin("plugin.jpa") version "1.9.20"
@@ -40,6 +41,10 @@ tasks.withType<KotlinCompile> {
 		freeCompilerArgs += "-Xjsr305=strict"
 		jvmTarget = "17"
 	}
+}
+
+allOpen {
+	annotation("jakarta.persistence.Entity")
 }
 
 tasks.withType<Test> {

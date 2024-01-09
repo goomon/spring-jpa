@@ -37,15 +37,17 @@ abstract class AbstractTest {
         return entityManagerFactory!!
     }
 
-    protected fun doInJPA(function: (EntityManager) -> Unit) {
+    protected fun<T> doInJPA(function: (EntityManager) -> T): T {
+        LOGGER.info { "\n\n\n Transaction start \n\n\n" }
         var entityManager: EntityManager? = null
         var transaction: EntityTransaction? = null
-        try {
+        return try {
             entityManager = newEntityManagerFactory(javaClass.simpleName).createEntityManager()
             transaction = entityManager.transaction
             transaction.begin()
-            function.invoke(entityManager)
+            val result = function.invoke(entityManager)
             transaction.commit()
+            result
         } catch (e: Exception) {
             LOGGER.error(e) { "Transaction failure" }
             try {
@@ -53,8 +55,10 @@ abstract class AbstractTest {
             } catch (e: Exception) {
                 LOGGER.error(e) { "Rollback failure" }
             }
+            throw e
         } finally {
             entityManager?.close()
+            LOGGER.info { "\n\n\n Transaction exit \n\n\n" }
         }
     }
 
