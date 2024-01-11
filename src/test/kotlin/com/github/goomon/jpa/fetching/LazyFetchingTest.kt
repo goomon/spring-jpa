@@ -4,6 +4,13 @@ import com.github.goomon.jpa.common.AbstractTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
+import org.hibernate.LazyInitializationException
+import org.hibernate.loader.MultipleBagFetchException
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import java.lang.IllegalArgumentException
+import java.util.Properties
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -15,13 +22,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
-import org.hibernate.LazyInitializationException
-import org.hibernate.loader.MultipleBagFetchException
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
-import java.util.Properties
 
 class LazyFetchingTest : AbstractTest() {
     override fun properties(): Properties {

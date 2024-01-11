@@ -3,6 +3,10 @@ package com.github.goomon.jpa.acid
 import com.github.goomon.jpa.common.AbstractTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import org.hibernate.LockOptions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -11,10 +15,6 @@ import javax.persistence.Id
 import javax.persistence.LockModeType
 import javax.persistence.LockTimeoutException
 import javax.persistence.Table
-import org.hibernate.LockOptions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 
 class PessimisticLockTest : AbstractTest() {
     @BeforeEach

@@ -1,6 +1,9 @@
 package com.github.goomon.jpa.fetching
 
 import com.github.goomon.jpa.common.AbstractTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import java.util.Properties
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -12,9 +15,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Table
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import java.util.Properties
 
 class EagerFetchingTest : AbstractTest() {
     override fun properties(): Properties {

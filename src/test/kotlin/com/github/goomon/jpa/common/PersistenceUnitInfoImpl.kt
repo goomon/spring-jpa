@@ -1,13 +1,13 @@
 package com.github.goomon.jpa.common
 
+import org.hibernate.jpa.HibernatePersistenceProvider
+import java.net.URL
+import java.util.Properties
 import javax.persistence.SharedCacheMode
 import javax.persistence.ValidationMode
 import javax.persistence.spi.ClassTransformer
 import javax.persistence.spi.PersistenceUnitInfo
 import javax.persistence.spi.PersistenceUnitTransactionType
-import org.hibernate.jpa.HibernatePersistenceProvider
-import java.net.URL
-import java.util.Properties
 import javax.sql.DataSource
 
 class PersistenceUnitInfoImpl(

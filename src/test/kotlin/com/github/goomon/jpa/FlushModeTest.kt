@@ -2,14 +2,14 @@ package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
 import io.kotest.matchers.shouldBe
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
 import org.hibernate.FlushMode
 import org.hibernate.Session
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
 
 class FlushModeTest : AbstractTest() {
     @Test

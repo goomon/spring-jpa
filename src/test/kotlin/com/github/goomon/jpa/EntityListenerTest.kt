@@ -1,6 +1,9 @@
 package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
+import org.junit.platform.commons.logging.LoggerFactory
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -15,9 +18,6 @@ import javax.persistence.PostUpdate
 import javax.persistence.PrePersist
 import javax.persistence.PreUpdate
 import javax.persistence.Table
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
-import org.junit.platform.commons.logging.LoggerFactory
 
 class EntityListenerTest : AbstractTest() {
     @Test

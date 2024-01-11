@@ -3,10 +3,6 @@ package com.github.goomon.jpa.common
 import com.p6spy.engine.spy.P6SpyDriver
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import javax.persistence.Entity
-import javax.persistence.EntityManager
-import javax.persistence.EntityManagerFactory
-import javax.persistence.EntityTransaction
 import org.hibernate.SessionFactory
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor
@@ -14,6 +10,10 @@ import org.junit.platform.commons.logging.LoggerFactory
 import org.junit.platform.commons.util.AnnotationUtils
 import org.springframework.jdbc.datasource.SimpleDriverDataSource
 import java.util.Properties
+import javax.persistence.Entity
+import javax.persistence.EntityManager
+import javax.persistence.EntityManagerFactory
+import javax.persistence.EntityTransaction
 import javax.sql.DataSource
 
 abstract class AbstractTest {

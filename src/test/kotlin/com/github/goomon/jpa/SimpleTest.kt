@@ -1,14 +1,14 @@
 package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
+import org.junit.jupiter.api.Test
+import java.util.Properties
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
-import org.junit.jupiter.api.Test
-import java.util.Properties
 
 class SimpleTest : AbstractTest() {
 
