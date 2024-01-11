@@ -3,14 +3,14 @@ package com.github.goomon.jpa.acid
 import com.github.goomon.jpa.common.AbstractTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.LockModeType
-import jakarta.persistence.LockTimeoutException
-import jakarta.persistence.Table
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.LockModeType
+import javax.persistence.LockTimeoutException
+import javax.persistence.Table
 import org.hibernate.LockOptions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -71,7 +71,7 @@ class PessimisticLockTest : AbstractTest() {
                             from Account a
                         """.trimIndent()
                     ).setLockMode(LockModeType.PESSIMISTIC_WRITE)
-                        .setHint("jakarta.persistence.lock.timeout", LockOptions.NO_WAIT)
+                        .setHint("javax.persistence.lock.timeout", LockOptions.NO_WAIT)
                         .resultList
                 }
             }
@@ -88,8 +88,8 @@ class PessimisticLockTest : AbstractTest() {
                     from Account a
                     where a.id between :minId and :maxId
                 """.trimIndent()
-            ).setParameter("minId", 1)
-                .setParameter("maxId", 5)
+            ).setParameter("minId", 1L)
+                .setParameter("maxId", 5L)
                 .setLockMode(LockModeType.PESSIMISTIC_WRITE).resultList.size shouldBe 5
 
             doInJPA { _entityManager ->
@@ -99,7 +99,7 @@ class PessimisticLockTest : AbstractTest() {
                         from Account a
                     """.trimIndent()
                 ).setLockMode(LockModeType.PESSIMISTIC_WRITE)
-                    .setHint("jakarta.persistence.lock.timeout", LockOptions.SKIP_LOCKED)
+                    .setHint("javax.persistence.lock.timeout", LockOptions.SKIP_LOCKED)
                     .resultList.size shouldBe 5
             }
         }

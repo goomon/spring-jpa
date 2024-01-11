@@ -1,20 +1,20 @@
 package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.FetchType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToMany
-import jakarta.persistence.PostPersist
-import jakarta.persistence.PostUpdate
-import jakarta.persistence.PrePersist
-import jakarta.persistence.PreUpdate
-import jakarta.persistence.Table
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.EntityListeners
+import javax.persistence.FetchType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToMany
+import javax.persistence.PostPersist
+import javax.persistence.PostUpdate
+import javax.persistence.PrePersist
+import javax.persistence.PreUpdate
+import javax.persistence.Table
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.platform.commons.logging.LoggerFactory
@@ -47,10 +47,10 @@ class EntityListenerTest : AbstractTest() {
     fun entityMergeEventListenerTest() {
         doInJPA { entityManager ->
             entityManager.persist(
-                Post(title = "entity listener test")
+                Post(id = 1L, title = "entity listener test")
             )
 
-            val post = entityManager.find(Post::class.java, 1)
+            val post = entityManager.find(Post::class.java, 1L)
             post.title = "entity listener test2"
             entityManager.merge(post)
         }

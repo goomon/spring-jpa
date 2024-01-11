@@ -2,13 +2,13 @@ package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
 import io.kotest.matchers.shouldBe
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.Id
+import javax.persistence.OneToOne
+import javax.persistence.Table
 import org.junit.jupiter.api.Test
 
 class FlushTest : AbstractTest() {

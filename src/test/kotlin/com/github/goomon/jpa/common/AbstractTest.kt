@@ -3,10 +3,11 @@ package com.github.goomon.jpa.common
 import com.p6spy.engine.spy.P6SpyDriver
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityManager
-import jakarta.persistence.EntityManagerFactory
-import jakarta.persistence.EntityTransaction
+import javax.persistence.Entity
+import javax.persistence.EntityManager
+import javax.persistence.EntityManagerFactory
+import javax.persistence.EntityTransaction
+import org.hibernate.SessionFactory
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor
 import org.junit.platform.commons.logging.LoggerFactory
@@ -85,9 +86,22 @@ abstract class AbstractTest {
     protected open fun properties(): Properties {
         val props = Properties()
         props["hibernate.hbm2ddl.auto"] = "create"
-        props["hibernate.dialect"] = "org.hibernate.dialect.MySQLDialect"
+        props["hibernate.dialect"] = "org.hibernate.dialect.MySQL8Dialect"
         props["hibernate.connection.datasource"] = dataSource()
         props["hibernate.generate_statistics"] = true
         return props
+    }
+
+    protected fun printCacheRegionStatisticsEntries(regionName: String) {
+        val sessionFactory = requireNotNull(entityManagerFactory?.unwrap(SessionFactory::class.java))
+        val statistics = sessionFactory.statistics
+        if (sessionFactory.sessionFactoryOptions.isQueryCacheEnabled) {
+            ReflectionUtils.invokeMethod<Unit>(
+                statistics,
+                "getQueryRegionStats",
+                "default-query-results-region"
+            )
+        }
+        statistics.getDomainDataRegionStatistics(regionName)
     }
 }

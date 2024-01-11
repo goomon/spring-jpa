@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "3.2.0"
+	id("org.springframework.boot") version "2.7.18"
 	id("io.spring.dependency-management") version "1.1.4"
 	id("org.jmailen.kotlinter") version "3.13.0"
 	id("org.jetbrains.kotlin.plugin.allopen") version "1.9.22"
@@ -25,6 +25,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.hibernate.orm:hibernate-ehcache:6.0.0.Alpha7")
 	implementation("com.mysql:mysql-connector-j")
 	implementation("p6spy:p6spy:3.9.1")
 

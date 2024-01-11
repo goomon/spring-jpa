@@ -2,10 +2,12 @@ package com.github.goomon.jpa
 
 import com.github.goomon.jpa.common.AbstractTest
 import io.kotest.matchers.shouldBe
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.Table
 import org.hibernate.Session
 import org.junit.jupiter.api.Test
 
@@ -39,7 +41,6 @@ class DirtyCheckTest : AbstractTest() {
             for (i in 1..2) {
                 entityManager.persist(
                     Post(
-                        id = i.toLong(),
                         title = "dirty check test $i",
                         creator = "creator $i"
                     )
@@ -68,6 +69,7 @@ class DirtyCheckTest : AbstractTest() {
     @Table(name = "post")
     class Post(
         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
 
         @Column(name = "title")
