@@ -92,7 +92,7 @@ abstract class AbstractTest {
         return props
     }
 
-    protected fun printCacheRegionStatisticsEntries(regionName: String) {
+    protected fun getCacheRegionStatisticsEntries(regionName: String): SecondCacheMetric {
         val sessionFactory = requireNotNull(entityManagerFactory?.unwrap(SessionFactory::class.java))
         val statistics = sessionFactory.statistics
         if (sessionFactory.sessionFactoryOptions.isQueryCacheEnabled) {
@@ -102,6 +102,25 @@ abstract class AbstractTest {
                 "default-query-results-region"
             )
         }
-        statistics.getDomainDataRegionStatistics(regionName)
+
+        val cacheRegionStatistics = statistics.getDomainDataRegionStatistics(regionName)
+        val cacheEntriesBuilder = buildString {
+            append("Cache region: $regionName\n")
+            append("Hit count: ${cacheRegionStatistics.hitCount}\n")
+            append("Miss count: ${cacheRegionStatistics.missCount}\n")
+            append("Put count: ${cacheRegionStatistics.putCount}")
+        }
+        LOGGER.info { cacheEntriesBuilder }
+        return SecondCacheMetric(
+            hitCount = cacheRegionStatistics.hitCount,
+            missCount = cacheRegionStatistics.missCount,
+            putCount = cacheRegionStatistics.putCount
+        )
     }
+
+    data class SecondCacheMetric(
+        val hitCount: Long,
+        val missCount: Long,
+        val putCount: Long
+    )
 }

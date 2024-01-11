@@ -152,7 +152,7 @@ class LazyFetchingTest : AbstractTest() {
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "post_id")
-        open var post: Post? = null
+        var post: Post? = null
     )
 
     @Entity(name = "Tag")
